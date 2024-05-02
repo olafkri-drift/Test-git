@@ -5,7 +5,7 @@ GET http://localhost:8080/api/runs
 GET http://localhost:8080/api/runs/2
 
 ### Find Run By ID
-GET http://localhost:8080/api/runs/99
+GET http://localhost:8080/api/runs/
 
 ### Create new Run
 POST http://localhost:8080/api/runs
@@ -13,7 +13,7 @@ Content-Type: application/json
 
 {
   "id": 11,
-  "title": "Saturday Morning Run",
+  "title": "Wednesday run",
   "startedOn": "2024-02-10T15:00:12.49766",
   "completedOn": "2024-02-10T16:01:12.497678",
   "miles": 6,
@@ -21,7 +21,7 @@ Content-Type: application/json
 }
 
 ### Create new Run with invalid dates (completedOn is before startedOn)
-POST http://localhost:8080/api/runs
+POST http://localhost:8080/api/runs/
 Content-Type: application/json
 
 {
