@@ -1,10 +1,9 @@
 package springBootLearning.javaTest.run;
 
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,10 +13,14 @@ import java.util.Optional;
 public class RunController {
 
     private final RunRepository runRepository;
+    //private final JdbcClient jdbcClient;
 
-    public RunController(RunRepository runRepository) {
+    public RunController(RunRepository runRepository/*, JdbcClient jdbcClient*/) {
         this.runRepository = runRepository;
+        //this.jdbcClient = jdbcClient;
     }
+
+
 
     @GetMapping("")
     List<Run> findAll() {
@@ -38,20 +41,25 @@ public class RunController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("")
     void create(@Valid @RequestBody Run run) {
-        runRepository.create(run);
+        runRepository.save(run);
     }
 
     //put
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping("/{id}")
     void update(@Valid @RequestBody Run run, @PathVariable Integer id) {
-        runRepository.update(run,id);
+        runRepository.save(run);
     }
 
     //delete
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
     void delete(@PathVariable Integer id) {
-        runRepository.delete(id);
+        runRepository.delete(runRepository.findById(id).get());
+    }
+
+    @GetMapping("/location/{location}")
+    List<Run> findByLocation(@PathVariable String location) {
+        return runRepository.findAllByLocation(location);
     }
 }
